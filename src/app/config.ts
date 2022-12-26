@@ -30,9 +30,9 @@ export class Config {
     lang: any = 'en';
     constructor() {
 
-        this.url = 'https://flunah.com/';
-        this.consumerKey = 'ck_1aa45f04eed00b89549805a94fe282a94a61954b';
-        this.consumerSecret = 'cs_4d699699b4863d31b249dfce4987c7817cd679b3';
+        this.url = 'https://headhunterssmokeshop.com/';
+        this.consumerKey = 'ck_6f5f858bdaf13458dca896ef62d58c4bfda2fed5';
+        this.consumerSecret = 'cs_680d821c15f0d1ef472d4fab29f4a4dcd3f87831';
  
         this.options.withCredentials = true;
         this.options.headers = {};
