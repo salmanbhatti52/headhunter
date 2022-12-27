@@ -499,7 +499,6 @@ cordova.define('cordova/plugin_list', function(require, exports, module) {
     "cordova-plugin-splashscreen": "6.0.0",
     "cordova-plugin-statusbar": "3.0.0",
     "cordova-plugin-telerik-imagepicker": "2.3.5",
-    "cordova-plugin-whitelist": "1.3.5",
     "es6-promise-plugin": "4.2.2",
     "cordova-plugin-x-socialsharing": "5.6.5",
     "cordova-sqlite-storage": "6.1.0"

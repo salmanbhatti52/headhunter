@@ -2,8 +2,8 @@
 source 'https://cdn.cocoapods.org/'
 platform :ios, '11.0'
 use_frameworks!
-target 'FLUNAH' do
-	project 'FLUNAH.xcodeproj'
+target 'Head Hunters' do
+	project 'Head Hunters.xcodeproj'
 	pod 'FBSDKCoreKit', '5.15.0'
 	pod 'FBSDKLoginKit', '5.15.0'
 	pod 'FBSDKShareKit', '5.15.0'
