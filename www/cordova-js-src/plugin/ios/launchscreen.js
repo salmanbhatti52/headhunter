@@ -1,4 +1,3 @@
-cordova.define("cordova-plugin-splashscreen.SplashScreen", function(require, exports, module) {
 /*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -22,15 +21,13 @@ cordova.define("cordova-plugin-splashscreen.SplashScreen", function(require, exp
 
 var exec = require('cordova/exec');
 
-var splashscreen = {
+var launchscreen = {
     show: function () {
-        exec(null, null, 'SplashScreen', 'show', []);
+        exec(null, null, 'LaunchScreen', 'show', []);
     },
     hide: function () {
-        exec(null, null, 'SplashScreen', 'hide', []);
+        exec(null, null, 'LaunchScreen', 'hide', []);
     }
 };
 
-module.exports = splashscreen;
-
-});
+module.exports = launchscreen;
