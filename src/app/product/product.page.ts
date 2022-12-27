@@ -147,7 +147,7 @@ export class ProductPage {
             }
             this.options.product_id = this.product.id;
             this.disableButton = true;
-            await this.api.postItem('add_to_cart', this.options).then(res => {
+            await this.api.addcart('add_to_cart', this.options).then(res => {
                 this.results = res;
                 if(this.results.error) {
                     this.presentToast(this.results.notice);

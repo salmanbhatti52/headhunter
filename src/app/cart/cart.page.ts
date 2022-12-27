@@ -24,20 +24,20 @@ export class CartPage {
     errors: any;
     lan: any = {};
     slideOpts = {
-    initialSlide: 1,
-    speed: 400
-  };
-    constructor(public modalController: ModalController, public translate: TranslateService, private alertCtrl: AlertController, public toastController: ToastController, public config: Config, public api: ApiService, public data: Data, public router: Router, public settings: Settings, public loadingController: LoadingController, public navCtrl: NavController, public route: ActivatedRoute, public productData: Product, public routerOutlet: IonRouterOutlet) {}
+        initialSlide: 1,
+        speed: 400
+    };
+    constructor(public modalController: ModalController, public translate: TranslateService, private alertCtrl: AlertController, public toastController: ToastController, public config: Config, public api: ApiService, public data: Data, public router: Router, public settings: Settings, public loadingController: LoadingController, public navCtrl: NavController, public route: ActivatedRoute, public productData: Product, public routerOutlet: IonRouterOutlet) { }
     ngOnInit() {
         this.translate.get(['Requested quantity not available']).subscribe(translations => {
-          this.lan.lowQuantity = translations['Requested quantity not available'];
+            this.lan.lowQuantity = translations['Requested quantity not available'];
         });
     }
     ionViewDidEnter() {
         this.getCart();
     }
     async getCart() {
-        await this.api.postItem('cart').then(res => {
+        await this.api.getcart('cart').then(res => {
             this.cart = res;
             this.data.updateCart(this.cart.cart_contents);
         }, err => {
@@ -45,17 +45,17 @@ export class CartPage {
         });
     }
     checkout() {
-        if(this.settings.customer.id || this.settings.settings.disable_guest_checkout == 0) {
+        if (this.settings.customer.id || this.settings.settings.disable_guest_checkout == 0) {
             this.navCtrl.navigateForward('/tabs/cart/address');
         }
         else this.login();
     }
-    getProduct(id){
+    getProduct(id) {
         this.productData.product = {};
         this.navCtrl.navigateForward(this.router.url + '/product/' + id);
     }
     async deleteItem(itemKey, qty) {
-        await this.api.postItem('remove_cart_item&item_key=' + itemKey).then(res => {
+        await this.api.delcartitem('remove_cart_item&item_key=' + itemKey).then(res => {
             this.cart = res;
             this.data.updateCart(this.cart.cart_contents);
         }, err => {
@@ -67,7 +67,7 @@ export class CartPage {
             coupon_code: coupon
         }).then(res => {
             this.couponMessage = res;
-            if(this.couponMessage != null && this.couponMessage.notice) {
+            if (this.couponMessage != null && this.couponMessage.notice) {
                 this.presentToast(this.couponMessage.notice)
             }
             this.getCart();
@@ -85,10 +85,10 @@ export class CartPage {
         });
     }
 
-    async addToCart(id, item){
+    async addToCart(id, item) {
         console.log(this.data.cart[id]);
         console.log(item.value.manage_stock);
-        if(item.value.manage_stock && (item.value.stock_quantity <= item.value.quantity)) {
+        if (item.value.manage_stock && (item.value.stock_quantity <= item.value.quantity)) {
             this.presentToast(this.lan.lowQuantity);
         } else {
             if (this.data.cartItem[item.key].quantity != undefined && this.data.cartItem[item.key].quantity == 0) {
@@ -108,7 +108,7 @@ export class CartPage {
             params.quantity = this.data.cartItem[item.key].quantity;
             params.update_cart = 'Update Cart';
             params._wpnonce = this.cart.cart_nonce;
-            await this.api.postItem('update-cart-item-qty', params).then(res => {
+            await this.api.addandremoveitem('update-cart-item-qty', params).then(res => {
                 this.cart = res;
                 this.data.updateCart(this.cart.cart_contents);
             }, err => {
@@ -117,7 +117,7 @@ export class CartPage {
         }
     }
 
-    async deleteFromCart(id, key){
+    async deleteFromCart(id, key) {
 
         if (this.data.cartItem[key].quantity != undefined && this.data.cartItem[key].quantity == 0) {
             this.data.cartItem[key].quantity = 0;
@@ -145,30 +145,30 @@ export class CartPage {
         });
     }
     //----------Rewrad-----------------//
-    redeem(){
-       // wc_points_rewards_apply_discount_amount: 
-       // wc_points_rewards_apply_discount: Apply Discount
-        this.api.postItem('ajax_maybe_apply_discount').then(res =>{
+    redeem() {
+        // wc_points_rewards_apply_discount_amount: 
+        // wc_points_rewards_apply_discount: Apply Discount
+        this.api.postItem('ajax_maybe_apply_discount').then(res => {
             console.log(res);
             this.getCart();
-            })
+        })
     }
 
     async login() {
         const modal = await this.modalController.create({
-              component: LoginPage,
-              componentProps: {
+            component: LoginPage,
+            componentProps: {
                 path: 'tabs/cart',
-                },
-              swipeToClose: true,
-              //presentingElement: this.routerOutlet.nativeEl,
-          });
-          modal.present();
-          const { data } = await modal.onWillDismiss();
+            },
+            swipeToClose: true,
+            //presentingElement: this.routerOutlet.nativeEl,
+        });
+        modal.present();
+        const { data } = await modal.onWillDismiss();
 
-            if(this.settings.customer.id) {
-                this.navCtrl.navigateForward('/tabs/cart/address');
-            }
+        if (this.settings.customer.id) {
+            this.navCtrl.navigateForward('/tabs/cart/address');
+        }
     }
     async onSubmit(userData) {
         this.loginForm.username = userData.username;
@@ -181,10 +181,10 @@ export class CartPage {
                 this.inValidUsername();
             } else if (this.status.data) {
                 this.settings.customer.id = this.status.ID;
-                if(this.status.allcaps.dc_vendor || this.status.allcaps.seller || this.status.allcaps.wcfm_vendor){
+                if (this.status.allcaps.dc_vendor || this.status.allcaps.seller || this.status.allcaps.wcfm_vendor) {
                     this.settings.vendor = true;
                 }
-                if(this.status.allcaps.administrator) {
+                if (this.status.allcaps.administrator) {
                     this.settings.administrator = true;
                 }
                 this.navCtrl.navigateForward('/tabs/cart/address');
@@ -195,17 +195,17 @@ export class CartPage {
     }
     async inValidUsername() {
         const alert = await this.alertCtrl.create({
-          header: 'Warning',
-          message: 'Invalid Username or Password',
-          buttons: ['OK']
+            header: 'Warning',
+            message: 'Invalid Username or Password',
+            buttons: ['OK']
         });
         await alert.present();
     }
     async presentToast(message) {
         const toast = await this.toastController.create({
-          message: message,
-          duration: 2000,
-          position: 'top'
+            message: message,
+            duration: 2000,
+            position: 'top'
         });
         toast.present();
     }
