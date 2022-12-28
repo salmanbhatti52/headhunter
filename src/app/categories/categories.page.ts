@@ -28,7 +28,7 @@ export class CategoriesPage {
                 item.show = false})
                 
              
-           
+                
             this.getProducts(this.data.mainCategories[i].id);
         }
   	}
